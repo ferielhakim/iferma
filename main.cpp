@@ -1,29 +1,33 @@
-#include "dialog.h"
-#include <QApplication>
-#include <QMessageBox>
+#include "mainwindow.h"
 #include "connexion.h"
+#include <QMessageBox>
+#include <QApplication>
+#include <QPushButton>
+#include <QtDebug>
 #include <QDebug>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Connexion c;
+    connexion c;
     bool test=c.ouvrirConnexion();
-    dialog d;
+    MainWindow w;
 
     if(test)
-    {d.show();
-     d.display_commandes();
-
-        QMessageBox::critical(nullptr, QObject::tr("database is open"),
-                    QObject::tr("connection successful.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
-}
+    {
+        w.show();
+        w.display_list_animaux();
+        QMessageBox::critical(nullptr, QObject::tr("BDD ouverte"),
+                    QObject::tr("Connexion réussie.\n"
+                                "Cliquez sur OK pour continuer"), QMessageBox::Ok);
+    }
 else
-        QMessageBox::critical(nullptr, QObject::tr("database is not open"),
-                    QObject::tr("connection failed.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+    {
+        QMessageBox::critical(nullptr, QObject::tr("BDD pas ouverte"),
+                    QObject::tr("La connexion a échoué.\n"
+                                "Cliquez sur annuler pour sortir."), QMessageBox::Cancel);
 
+    }
 
     return a.exec();
 }
